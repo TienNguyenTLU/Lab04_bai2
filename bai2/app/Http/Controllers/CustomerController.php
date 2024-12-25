@@ -12,7 +12,7 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        $customers = Customer::paginate(5);
+        $customers = Customer::orderBy('created_at', 'desc')->paginate(5);
         return view('customers.index', compact('customers'));
     }
 
@@ -31,7 +31,6 @@ class CustomerController extends Controller
     {
         // Create customer without validation
         Customer::create($request->all());
-
         return redirect()->route('customers.index')->with('success', 'Khách hàng đã được thêm thành công!');
     }
 
@@ -71,7 +70,9 @@ class CustomerController extends Controller
     public function destroy($id)
     {
         $customer = Customer::findOrFail($id);
-        $customer->delete();
+        if($customer){
+            $customer->delete();
+        }
 
         return redirect()->route('customers.index')->with('success', 'Khách hàng đã được xóa thành công!');
     }
