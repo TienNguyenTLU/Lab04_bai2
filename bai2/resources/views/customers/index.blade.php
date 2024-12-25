@@ -26,7 +26,9 @@
                 <td>{{$item->email}}</td>
                 <td>
                     <a class="btn btn-warning"><i class="bi bi-pen"></i></a>
-                    <a class="btn btn-danger" href=""><i class="bi bi-trash"></i></a>
+                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal" onclick="setDeleteAction('{{ route('customers.destroy', $item->id)}}')">
+                      <i class="bi bi-trash"></i>
+                    </button>
                 </td>
               </tr>
               <?php 
@@ -40,4 +42,13 @@
           $customers->links('pagination::bootstrap-4')
         }}
 </div>
+
+@include('customers.destroy');
 @endsection
+
+<script>
+    function setDeleteAction(actionUrl) {
+        const deleteForm = document.getElementById('deleteForm');
+        deleteForm.action = actionUrl;
+    }
+</script>

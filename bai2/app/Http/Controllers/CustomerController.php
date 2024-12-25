@@ -39,8 +39,6 @@ class CustomerController extends Controller
      */
     public function show($id)
     {
-        $customer = Customer::findOrFail($id);
-        return view('customers.show', compact('customer'));
     }
 
     /**
