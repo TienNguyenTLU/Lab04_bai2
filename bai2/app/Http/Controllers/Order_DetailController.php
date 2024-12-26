@@ -16,42 +16,42 @@ class Order_DetailController extends Controller
         return view('order_details.index', compact('order_details'));
     }
 
-    public function create(Request $request)
+
+public function create()
+{
+    $customers = Customer::all();
+    $products = Product::all();
+    $order = Order::latest()->first(); 
+
+    return view('order_details.create', compact('customers', 'products', 'order'));
+}
+
+    
+
+public function store(Request $request)
 {
 
-    $product = Product::find($request->product_id);
-    $customer = Customer::find($request->customer_id);
-    $order = Order::find($request->order_id);
+    $request->validate([
+        'order_id' => 'required|exists:orders,id', 
+        'product_id' => 'required|exists:products,id', 
+        'quantity' => 'required|integer|min:1',
+        'status' => 'required|boolean', 
+        'order_date' => 'required|date', 
+    ]);
 
-    if (!$product || !$customer || !$order) {
-        return redirect()->route('order_details.create')->with('error', 'Dữ liệu không hợp lệ. Vui lòng kiểm tra lại.');
-    }
-
-    $order_detail = Order_Detail::create([
+    $orderDetail = Order_Detail::create([
         'order_id' => $request->order_id,
         'product_id' => $request->product_id,
         'quantity' => $request->quantity,
-        'customer_id' => $request->customer_id,
+        'status' => $request->status,
         'order_date' => $request->order_date,
-        'status' => $request->status
     ]);
 
-    return redirect()->route('order_details.index')->with('success', 'Tạo chi tiết đơn hàng thành công.');
+    return redirect()->route('order_details.index')->with('success', 'Chi tiết đơn hàng đã được thêm thành công.');
 }
 
 
-    public function store(Request $request)
-    {
-        Order_Detail::create([
-            'order_id' => $request->order_id,
-            'product_id' => $request->product_id,
-            'quantity' => $request->quantity
-        ]);
 
-        $product = Product::find($request->product_id);
-
-        return redirect()->route('order_details.index');
-    }
 
     public function show($id)
     {
@@ -69,12 +69,10 @@ class Order_DetailController extends Controller
 
     public function update(Request $request, $id)
 {
-
     $order_detail = Order_Detail::findOrFail($id);
     $product = Product::find($request->product_id);
     $customer = Customer::find($request->customer_id);
     
-
     $order_detail->update([
         'product_id' => $request->product_id,
         'quantity' => $request->return_quantity,
@@ -104,7 +102,7 @@ class Order_DetailController extends Controller
         
         $order_detail = Order_Detail::findOrFail($id);
         $order_detail->delete();
-      
+
         return redirect()->route('order_details.index');
     }
 }
