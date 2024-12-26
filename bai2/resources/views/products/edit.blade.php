@@ -1,5 +1,6 @@
 @extends('layouts.app')
 @section('content')
+
 <div class="container">
     <h2>Sửa thông tin sản phẩm</h2>
     <form action="{{ route('products.update', $product->id) }}" method="POST">
@@ -49,3 +50,4 @@
         <a href="{{ route('products.index') }}" class="btn btn-secondary">Quay lại</a>
     </form>
 </div>
+@endsection

@@ -30,7 +30,15 @@
           <a type="button" class="btn btn-primary" href="{{route('products.edit', $item->id)}}"><i
               class="bi bi-pen"></i></a>
 
-          <button type="button" class="btn btn-primary"><i class="bi bi-trash"></i></button>
+          <form action="{{ route('products.destroy', $item->id) }}" method="POST" style="display:inline;"
+            onsubmit="return confirm('Bạn có chắc chắn muốn xóa?')">
+            @csrf
+            @method('DELETE')
+            <!-- Đảm bảo dòng này có mặt trong form -->
+            <button type="submit" class="btn btn-danger"><i class="bi bi-trash"></i></button>
+          </form>
+
+          </a>
 
         </td>
       </tr>

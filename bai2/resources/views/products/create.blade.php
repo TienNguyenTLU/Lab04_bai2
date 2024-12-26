@@ -25,10 +25,11 @@
                 <input type="number" class="form-control" name="quantity" required>
             </div>
         </div>
-        <div class="modal-footer">
+        <div>
             <button type="submit" class="btn btn-primary">Thêm sản phẩm</button>
         </div>
 </div>
 </form>
 </div>
 </div>
+@endsection
