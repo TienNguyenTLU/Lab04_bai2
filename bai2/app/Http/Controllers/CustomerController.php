@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Customer;
+use App\Models\Order;
 
 class CustomerController extends Controller
 {
@@ -67,11 +68,13 @@ class CustomerController extends Controller
      */
     public function destroy($id)
     {
-        $customer = Customer::findOrFail($id);
-        if($customer){
-            $customer->delete();
+        $customer = Customer::find($id);
+    
+        if ($customer->orders()->count() > 0) {
+            return redirect()->route('customers.index')->with('error', 'Không thể xóa khách hàng vì đã có đơn hàng liên quan.');
         }
-
-        return redirect()->route('customers.index')->with('success', 'Khách hàng đã được xóa thành công!');
-    }
+    
+        $customer->delete();
+        return redirect()->route('customers.index')->with('success', 'Khách hàng đã được xóa.');
+    }    
 }
