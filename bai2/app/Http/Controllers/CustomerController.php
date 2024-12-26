@@ -30,10 +30,31 @@ class CustomerController extends Controller
      */
     public function store(Request $request)
     {
-        // Create customer without validation
+        $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'address' => ['nullable', 'string', 'max:500'],
+            'phone' => ['required', 'string', 'regex:/^(\+84|0)\d{9,10}$/'],
+            'email' => ['required ', 'email' ,'unique:customers', 'email|max:255'],
+        ], [
+            'name.required' => 'Tên khách hàng là bắt buộc.',
+            'name.string' => 'Tên khách hàng phải là một chuỗi.',
+            'name.max' => 'Tên khách hàng không được vượt quá 255 ký tự.',
+            'address.string' => 'Địa chỉ phải là một chuỗi.',
+            'address.max' => 'Địa chỉ không được vượt quá 500 ký tự.',
+            'phone.required' => 'Số điện thoại là bắt buộc.',
+            'phone.regex' => 'Số điện thoại không đúng định dạng.',
+            'email.required' => 'Email là bắt buộc.',
+            'email.email' => 'Email không đúng định dạng.',
+            'email.unique' => 'Email này đã tồn tại.',
+            'email.max' => 'Email không được vượt quá 255 ký tự.',
+        ]);        
+    
+        // Store the validated customer data
         Customer::create($request->all());
+    
         return redirect()->route('customers.index')->with('success', 'Khách hàng đã được thêm thành công!');
     }
+    
 
     /**
      * Display the specified resource.
@@ -56,8 +77,25 @@ class CustomerController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // Remove validation, update customer directly
         $customer = Customer::findOrFail($id);
+        $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'address' => ['nullable', 'string', 'max:500'],
+            'phone' => ['required', 'string', 'regex:/^(\+84|0)\d{9,10}$/'],
+            'email' => ['required', 'email', 'unique:customers,email,' . $customer->id, 'max:255'],
+        ], [
+            'name.required' => 'Tên khách hàng là bắt buộc.',
+            'name.string' => 'Tên khách hàng phải là một chuỗi.',
+            'name.max' => 'Tên khách hàng không được vượt quá 255 ký tự.',
+            'address.string' => 'Địa chỉ phải là một chuỗi.',
+            'address.max' => 'Địa chỉ không được vượt quá 500 ký tự.',
+            'phone.required' => 'Số điện thoại là bắt buộc.',
+            'phone.regex' => 'Số điện thoại không đúng định dạng.',
+            'email.required' => 'Email là bắt buộc.',
+            'email.email' => 'Email không đúng định dạng.',
+            'email.unique' => 'Email này đã tồn tại.',
+            'email.max' => 'Email không được vượt quá 255 ký tự.',
+        ]); 
         $customer->update($request->all());
 
         return redirect()->route('customers.index')->with('success', 'Thông tin khách hàng đã được cập nhật!');
