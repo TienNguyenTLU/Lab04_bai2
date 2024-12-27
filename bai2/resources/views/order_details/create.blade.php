@@ -40,9 +40,6 @@
                     @enderror
                     <br />
                 </div>
-
-                <!-- Ngày đặt hàng -->
-                <!-- Order Date -->
                 <div class="mb-6">
                     <label for="order_date" class="block text-gray-700 font-medium mb-2">Ngày đặt hàng</label>
                     <input type="date" id="order_date" name="order_date" class="form-control"
@@ -53,7 +50,6 @@
                     @enderror
                     <br>
                 </div>
-                <!-- Số lượng -->
                 <div class="mb-6">
                     <label for="quantity" class="block text-gray-700 font-medium mb-2">Số lượng</label>
                     <input type="text" id="quantity" name="quantity" class="form-control">
@@ -63,8 +59,6 @@
                     @enderror
                     <br>
                 </div>
-
-                <!-- Trạng thái thanh toán -->
                 <div class="mb-6">
                     <label for="status" class="block text-gray-700 font-medium mb-2">Trạng thái thanh toán</label>
                     <select id="status" name="status" class="form-control">
@@ -81,7 +75,9 @@
                 <br />
                 <div class="text-center">
                     <button type="submit" class="btn btn-primary">Tạo mới</button>
+                    <a href="{{ route('order_details.index') }}" class="btn btn-info text-white">Hủy bỏ</a>
                 </div>
+                
                 <br />
             </form>
         @endsection
