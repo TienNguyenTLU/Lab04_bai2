@@ -30,6 +30,12 @@ class ProductController extends Controller
             'name.required' => 'Tên sản phẩm là bắt buộc.',
             'name.string' => 'Tên sản phẩm phải là một chuỗi.',
             'name.max' => 'Tên sản phẩm không được vượt quá 255 ký tự.',
+            'price.required' => 'Giá sản phẩm là bắt buộc.',
+            'price.numeric' => 'Giá sản phẩm phải là một số.',
+            'price.min' => 'Giá sản phẩm phải lớn hơn hoặc bằng 0.',
+            'quantity.required' => 'Số lượng sản phẩm là bắt buộc.',
+            'quantity.integer' => 'Số lượng sản phẩm phải là số nguyên.',
+            'quantity.min' => 'Số lượng sản phẩm phải lớn hơn hoặc bằng 1.'
 
 
         ];
@@ -59,7 +65,17 @@ class ProductController extends Controller
             'price' => ['required', 'numeric', 'min:0'],
             'quantity' => ['required', 'integer', 'min:1']
         ]);
-
+        [
+            'name.required' => 'Tên sản phẩm là bắt buộc.',
+            'name.string' => 'Tên sản phẩm phải là một chuỗi ký tự.',
+            'name.max' => 'Tên sản phẩm không được vượt quá 255 ký tự.',
+            'price.required' => 'Giá sản phẩm là bắt buộc.',
+            'price.numeric' => 'Giá sản phẩm phải là một số.',
+            'price.min' => 'Giá sản phẩm phải lớn hơn hoặc bằng 0.',
+            'quantity.required' => 'Số lượng sản phẩm là bắt buộc.',
+            'quantity.integer' => 'Số lượng sản phẩm phải là số nguyên.',
+            'quantity.min' => 'Số lượng sản phẩm phải lớn hơn hoặc bằng 1.'
+        ];
 
         $product->update($request->all());
 
