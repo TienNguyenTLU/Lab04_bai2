@@ -1,6 +1,7 @@
 @extends('layouts.app')
 @section('content')
     <div class="container">
+      <a href="{{route('order_details.create')}}" class="btn btn-success">ADD</a>
         <table class="table">
             <thead>
               <tr>
@@ -10,7 +11,7 @@
                 <th scope="col">Mô tả</th>
                 <th scope="col">đơn giá</th>
                 <th scope="col">Số lượng</th>
-                <th scope="col">Action</th>
+                <th scope="col" style="width: 20%;">Action</th>
               </tr>
             </thead>
             <tbody>
@@ -26,8 +27,8 @@
                     <td>{{$item->price}}</td>
                     <td>{{$item->quantity}}</td>
                     <td>
-                        <button type="button" class="btn btn-success"><i class="bi bi-eye"></i></button>
-                        <button type="button" class="btn btn-primary"><i class="bi bi-trash"></i></button>
+                      <a class="btn btn-warning"><i class="bi bi-pen"></i></a>
+                      <a class="btn btn-danger" href=""><i class="bi bi-trash"></i></a>
                     </td>
                   </tr>
                   <?php 
@@ -39,7 +40,7 @@
           </table>
           <div class="d-flex justify-content-center">
             {{
-              $products->links('pagination::bootstrap-5')
+              $products->links('pagination::bootstrap-4')
             }}
     </div>
 @endsection 

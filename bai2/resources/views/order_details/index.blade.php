@@ -49,7 +49,7 @@
           </table>
           <div class="d-flex justify-content-center">
             {{
-              $order_details->links('pagination::bootstrap-5')
+              $order_details->links('pagination::bootstrap-4')
             }}
           </div>
     </div>
