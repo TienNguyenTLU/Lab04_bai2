@@ -15,6 +15,6 @@ public function customer()
 }
 public function orderDetails()
 {
-    return $this->hasMany(Order_Detail::class);
+    return $this->hasOne(Order_Detail::class);
 }
 }

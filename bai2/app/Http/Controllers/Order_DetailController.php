@@ -15,44 +15,48 @@ class Order_DetailController extends Controller
         $order_details = Order_Detail::with('order', 'product')->paginate(5);
         return view('order_details.index', compact('order_details'));
     }
-
-
 public function create()
 {
     $customers = Customer::all();
     $products = Product::all();
     $order = Order::latest()->first(); 
-
     return view('order_details.create', compact('customers', 'products', 'order'));
 }
-
-    
-
 public function store(Request $request)
 {
-
     $request->validate([
         'order_id' => 'required|exists:orders,id', 
         'product_id' => 'required|exists:products,id', 
         'quantity' => 'required|integer|min:1',
         'status' => 'required|boolean', 
         'order_date' => 'required|date', 
-    ]);
-
+    ],
+    [
+        'product_id.required' => 'vui lòng nhập thông tin',
+        'customer_id.required'=>'Vui lòng nhập thông tin khách hàng',
+        'quantity.required'=>'vui lòng nhập số lượng !' 
+        
+    ]
+);
+    $order = Order::create
+    (
+        [
+            'customer_id'=>$request->customer_id,
+            'order_date' =>$request->order_date,
+            'status'=>$request->status,
+            'created_at' =>getdate(),
+        ]
+        );
+    $order = Order::latest()->first(); 
     $orderDetail = Order_Detail::create([
-        'order_id' => $request->order_id,
+        'order_id' => $order->id,
         'product_id' => $request->product_id,
         'quantity' => $request->quantity,
         'status' => $request->status,
         'order_date' => $request->order_date,
     ]);
-
     return redirect()->route('order_details.index')->with('success', 'Chi tiết đơn hàng đã được thêm thành công.');
 }
-
-
-
-
     public function show($id)
     {
         $order_detail = Order_Detail::with('order', 'product')->findOrFail($id);
@@ -81,10 +85,7 @@ public function store(Request $request)
         'status' => $request->return_status
     ]);
     
- 
     $order = $order_detail->order; 
-    
-
     $order->update([
         'customer_id' => $request->customer_id, 
         'order_date' => $request->return_order_date,
@@ -95,14 +96,12 @@ public function store(Request $request)
     $product->increment('quantity', $old_quantity - $request->return_quantity);  
     return redirect()->route('order_details.index')->with('success', 'Cập nhật thành công');
 }
-
-
     public function destroy($id)
     {
         
         $order_detail = Order_Detail::findOrFail($id);
-        $order_detail->delete();
-
+        $order = Order::findOrFail($order_detail->order_id);
+        $order->delete();
         return redirect()->route('order_details.index');
     }
 }

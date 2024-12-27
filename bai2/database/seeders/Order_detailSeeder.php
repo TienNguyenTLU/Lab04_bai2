@@ -19,11 +19,11 @@ class Order_detailSeeder extends Seeder
         $order_id = DB::table('orders')->pluck('id')->toArray(); 
         $product_id = DB::table('products')->pluck('id')->toArray();
         $faker = Faker::create();
-        foreach(range(start:1,end:10) as $index)
+        foreach(range(start:0,end:9) as $index)
         {
             Order_Detail::create(
                 [
-                    'order_id' => $order_id[array_rand($order_id)],
+                    'order_id' => $order_id[$index % count($order_id)],
                     'product_id'=> $product_id[array_rand($product_id)],
                     'quantity'=> $faker->numberBetween(1,10),
                 ]

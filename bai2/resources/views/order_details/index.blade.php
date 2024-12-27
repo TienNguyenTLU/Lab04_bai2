@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
     <div class="container">
-      <a href="{{route('order_details.create')}}" class="btn btn-success">ADD</a>
+      <a href="{{route('order_details.create')}}" class="btn btn-success">Thêm </a>
         <table class="table">
             <thead>
               <tr>
@@ -20,7 +20,7 @@
                 @foreach ($order_details as $item)
                 <tr>
                     <th scope="row">{{$i}}</th>
-                    <td>{{$item->id}}</td>
+                    <td>{{$item->order_id}}</td>
                     <td>{{$item->product->name}}</td>
                     <td>{{$item->order->order_date}}</td>
                     <td>
