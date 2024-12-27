@@ -13,6 +13,3 @@ Route::resource('products', ProductController::class);
 Route::resource('customers', CustomerController::class);
 Route::resource('orders', OrderController::class);
 Route::resource('order_details', Order_DetailController::class);
-
-
-Route::get('order_details/create', [Order_DetailController::class, 'create'])->name('order_details.create');

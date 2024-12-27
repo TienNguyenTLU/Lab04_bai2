@@ -32,7 +32,7 @@
                     </td>
                     <td>
                         <a type="button" class="btn btn-success" href ="{{route('order_details.show', $item->id)}}"><i class="bi bi-eye"></i></a>
-                        <a type="button" class="btn btn-danger" href="{{route('order_details.edit', $item->id)}}"><i class="bi bi-pen"></i></a>
+                        <a type="button" class="btn btn-warning" href="{{route('order_details.edit', $item->id)}}"><i class="bi bi-pen"></i></a>
                         <form action="{{ route('order_details.destroy', $item->id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Bạn có chắc chắn muốn xóa?')">
                           @csrf
                           @method('DELETE') <!-- Đảm bảo dòng này có mặt trong form -->
