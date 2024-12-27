@@ -34,7 +34,7 @@ class CustomerController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'address' => ['nullable', 'string', 'max:500'],
             'phone' => ['required', 'string', 'regex:/^(\+84|0)\d{9,10}$/'],
-            'email' => ['required ', 'email' ,'unique:customers', 'email|max:255'],
+            'email' => ['required ', 'email' ,'unique:customers']
         ], [
             'name.required' => 'Tên khách hàng là bắt buộc.',
             'name.string' => 'Tên khách hàng phải là một chuỗi.',
@@ -46,7 +46,7 @@ class CustomerController extends Controller
             'email.required' => 'Email là bắt buộc.',
             'email.email' => 'Email không đúng định dạng.',
             'email.unique' => 'Email này đã tồn tại.',
-            'email.max' => 'Email không được vượt quá 255 ký tự.',
+            
         ]);        
     
         // Store the validated customer data
