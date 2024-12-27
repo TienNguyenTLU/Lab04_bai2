@@ -34,8 +34,10 @@ public function store(Request $request)
     [
         'product_id.required' => 'vui lòng nhập thông tin',
         'customer_id.required'=>'Vui lòng nhập thông tin khách hàng',
-        'quantity.required'=>'vui lòng nhập số lượng !' 
-        
+        'quantity.required'=>'vui lòng nhập số lượng !' ,
+        'order_date.required'=>'Vui lòng nhập ngày đặt hàng',
+        'status.required'=>'Vui long nhập tình trạng'
+
     ]
 );
     $order = Order::create
@@ -53,6 +55,7 @@ public function store(Request $request)
         'product_id' => $request->product_id,
         'quantity' => $request->quantity,
         'status' => $request->status,
+        'status.in' => 'Trạng thái phải là (chưa thanh toán) hoặc (đã thanh toán).',
         'order_date' => $request->order_date,
     ]);
     return redirect()->route('order_details.index')->with('success', 'Chi tiết đơn hàng đã được thêm thành công.');
@@ -72,7 +75,24 @@ public function store(Request $request)
     }
 
     public function update(Request $request, $id)
-{
+{   
+    $request->validate([
+        'order_id' => 'required|exists:orders,id', 
+        'product_id' => 'required|exists:products,id', 
+        'quantity' => 'required|integer|min:1',
+        'status' => 'required|boolean', 
+        'order_date' => 'required|date', 
+    ],
+    [
+        'product_id.required' => 'vui lòng nhập thông tin',
+        'customer_id.required'=>'Vui lòng nhập thông tin khách hàng',
+        'quantity.required'=>'vui lòng nhập số lượng !' ,
+        'order_date.required'=>'Vui lòng nhập ngày đặt hàng',
+        'status.required'=>'Vui long nhập tình trạng',
+        'status.in' => 'Trạng thái phải là (chưa thanh toán) hoặc (đã thanh toán).'
+
+    ]
+);
     $order_detail = Order_Detail::findOrFail($id);
     $product = Product::find($request->product_id);
     $customer = Customer::find($request->customer_id);
@@ -102,6 +122,6 @@ public function store(Request $request)
         $order_detail = Order_Detail::findOrFail($id);
         $order = Order::findOrFail($order_detail->order_id);
         $order->delete();
-        return redirect()->route('order_details.index');
+        return redirect()->route('order_details.index')->with('success', 'Xóa phiếu mượn thành công!');
     }
 }
